@@ -2,40 +2,66 @@ package com.pixelrabbit.fitnessapp.ui.detail
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.activity.viewModels
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.pixelrabbit.fitnessapp.databinding.FragmentWorkoutDetailBinding
 import com.pixelrabbit.fitnessapp.utils.UiState
 
-class WorkoutDetailActivity : AppCompatActivity() {
+class WorkoutDetailFragment : Fragment() {
 
-    private lateinit var binding: FragmentWorkoutDetailBinding
+    private var _binding: FragmentWorkoutDetailBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: VideoPlayerViewModel by viewModels()
     private var player: ExoPlayer? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = FragmentWorkoutDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    companion object {
+        private const val ARG_WORKOUT_ID = "workout_id"
 
-        val workoutId = intent.getIntExtra("workout_id", 0)
+        fun newInstance(workoutId: Int) = WorkoutDetailFragment().apply {
+            arguments = Bundle().apply { putInt(ARG_WORKOUT_ID, workoutId) }
+        }
+    }
 
-        viewModel.video.observe(this) { state ->
-            when(state) {
-                is UiState.Loading -> {
-                    binding.progressBar.visibility = android.view.View.VISIBLE
-                }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val workoutId = arguments?.getInt(ARG_WORKOUT_ID) ?: -1
+        if (workoutId == -1) {
+            Toast.makeText(requireContext(), "Ошибка: нет ID тренировки", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        viewModel.video.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
                 is UiState.Success -> {
-                    binding.progressBar.visibility = android.view.View.GONE
+                    binding.progressBar.visibility = View.GONE
                     setupPlayer(state.data.link)
                 }
                 is UiState.Error -> {
-                    binding.progressBar.visibility = android.view.View.GONE
-                    // Можно показать Toast
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Ошибка загрузки видео: ${state.message}", Toast.LENGTH_SHORT).show()
                 }
-                else -> {}
+                is UiState.Empty -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Видео не найдено", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -43,7 +69,7 @@ class WorkoutDetailActivity : AppCompatActivity() {
     }
 
     private fun setupPlayer(videoUrl: String) {
-        player = ExoPlayer.Builder(this).build()
+        player = ExoPlayer.Builder(requireContext()).build()
         binding.playerView.player = player
         val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
         player?.setMediaItem(mediaItem)
@@ -55,5 +81,10 @@ class WorkoutDetailActivity : AppCompatActivity() {
         super.onStop()
         player?.release()
         player = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
