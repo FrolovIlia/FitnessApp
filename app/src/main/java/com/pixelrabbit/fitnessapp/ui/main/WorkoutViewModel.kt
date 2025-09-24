@@ -5,46 +5,59 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pixelrabbit.fitnessapp.data.model.Workout
+import com.pixelrabbit.fitnessapp.data.repository.WorkoutRepository
 import com.pixelrabbit.fitnessapp.utils.UiState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class WorkoutViewModel : ViewModel() {
 
+    private val repository = WorkoutRepository()
+
     private val _workouts = MutableLiveData<UiState<List<Workout>>>()
     val workouts: LiveData<UiState<List<Workout>>> get() = _workouts
 
-    private var allWorkouts: List<Workout> = emptyList()
+    private var _allWorkouts: List<Workout> = emptyList()
+
+    private var currentQuery: String = ""
+    private var currentFilterType: Int = 0 // 0 = все
 
     fun loadWorkouts() {
-        _workouts.value = UiState.Loading
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
+            _workouts.value = UiState.Loading
             try {
-                // Имитация запроса к API из твоего YAML
-                delay(500) // имитация сети
-                val response = listOf(
-                    Workout(1, "Утренняя пробежка", "Идеальная пробежка для старта дня", 1, "30 минут"),
-                    Workout(2, "Жиросжигающая тренировка", null, 1, "45 минут"),
-                    Workout(3, "Прямой эфир с тренером", "Живой эфир с разбором техники", 2, "60 минут"),
-                    Workout(4, "Силовой комплекс", "Упражнения с собственным весом", 3, "20 минут"),
-                    Workout(5, "Йога для начинающих", "Поза лотоса и базовые асаны", 1, "40 минут")
-                )
-                allWorkouts = response
-                _workouts.postValue(if (response.isEmpty()) UiState.Empty else UiState.Success(response))
+                val result = repository.getWorkouts()
+                _allWorkouts = result
+                applyFilters()
             } catch (e: Exception) {
-                _workouts.postValue(UiState.Error(e.message ?: "Ошибка загрузки"))
+                _workouts.value = UiState.Error("Ошибка загрузки: ${e.message}")
             }
         }
     }
 
     fun searchByTitle(query: String) {
-        val filtered = allWorkouts.filter { it.title.contains(query, ignoreCase = true) }
-        _workouts.value = if (filtered.isEmpty()) UiState.Empty else UiState.Success(filtered)
+        currentQuery = query
+        applyFilters()
     }
 
     fun filterByType(type: Int) {
-        val filtered = if (type == 0) allWorkouts else allWorkouts.filter { it.type == type }
-        _workouts.value = if (filtered.isEmpty()) UiState.Empty else UiState.Success(filtered)
+        currentFilterType = type
+        applyFilters()
+    }
+
+    private fun applyFilters() {
+        var filtered = _allWorkouts
+
+        if (currentFilterType != 0) {
+            filtered = filtered.filter { it.type == currentFilterType }
+        }
+
+        if (currentQuery.isNotBlank()) {
+            filtered = filtered.filter {
+                it.title.contains(currentQuery, ignoreCase = true)
+            }
+        }
+
+        _workouts.value =
+            if (filtered.isEmpty()) UiState.Empty else UiState.Success(filtered)
     }
 }

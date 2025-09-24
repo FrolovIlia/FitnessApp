@@ -1,42 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/workout_list_layout"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".ui.main.WorkoutListFragment">
+    android:paddingTop="?attr/actionBarSize">
 
-    <!-- SearchView для поиска -->
+    <!-- Поле поиска -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Поиск тренировки" />
+        android:queryHint="Поиск по названию" />
 
-    <!-- Spinner для фильтра по типу тренировки -->
+    <!-- Фильтр -->
     <Spinner
         android:id="@+id/typeFilter"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:spinnerMode="dropdown" />
+        android:layout_marginTop="8dp" />
 
-    <!-- RecyclerView для списка тренировок -->
+    <!-- Список -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="8dp"
         android:clipToPadding="false"
-        android:paddingBottom="8dp" />
+        android:paddingTop="8dp"/>
 
-    <!-- ProgressBar для загрузки -->
+    <!-- Прогрессбар -->
     <ProgressBar
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

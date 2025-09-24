@@ -9,25 +9,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class VideoPlayerViewModel(private val repository: WorkoutRepository = WorkoutRepository()) : ViewModel() {
+class VideoPlayerViewModel : ViewModel() {
 
-    private val _video = MutableStateFlow<UiState<VideoWorkout>>(UiState.Loading)
+    private val repository = WorkoutRepository()
+
+    private val _video = MutableStateFlow<UiState<VideoWorkout>>(UiState.Empty)
     val video: StateFlow<UiState<VideoWorkout>> = _video
 
     fun loadVideo(id: Int) {
         viewModelScope.launch {
-            _video.value = UiState.Loading
             try {
-                val response = repository.getVideo(id)
-                if (response.isSuccessful) {
-                    val data = response.body()
-                    if (data != null) _video.value = UiState.Success(data)
-                    else _video.value = UiState.Empty
-                } else {
-                    _video.value = UiState.Error("Ошибка сервера")
-                }
+                _video.value = UiState.Loading
+                val videoData = repository.getVideo(id)
+                _video.value = UiState.Success(videoData)
             } catch (e: Exception) {
-                _video.value = UiState.Error(e.message ?: "Неизвестная ошибка")
+                _video.value = UiState.Error(e.message ?: "Ошибка")
             }
         }
     }
