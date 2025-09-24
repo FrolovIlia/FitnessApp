@@ -3,6 +3,7 @@ package com.pixelrabbit.fitnessapp.ui.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pixelrabbit.fitnessapp.data.model.VideoWorkout
+import com.pixelrabbit.fitnessapp.data.model.Workout
 import com.pixelrabbit.fitnessapp.data.repository.WorkoutRepository
 import com.pixelrabbit.fitnessapp.utils.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,15 +17,25 @@ class VideoPlayerViewModel : ViewModel() {
     private val _video = MutableStateFlow<UiState<VideoWorkout>>(UiState.Empty)
     val video: StateFlow<UiState<VideoWorkout>> = _video
 
-    fun loadVideo(id: Int) {
+    // Метод для получения видео
+    fun loadVideo(workoutId: Int) {
         viewModelScope.launch {
+            _video.value = UiState.Loading
             try {
-                _video.value = UiState.Loading
-                val videoData = repository.getVideo(id)
-                _video.value = UiState.Success(videoData)
+                val videoWorkout = repository.getVideo(workoutId)
+                _video.value = UiState.Success(videoWorkout)
             } catch (e: Exception) {
-                _video.value = UiState.Error(e.message ?: "Ошибка")
+                _video.value = UiState.Error("Ошибка загрузки видео")
             }
+        }
+    }
+
+    // 🔹 Новый метод: получить Workout по ID
+    suspend fun getWorkoutById(workoutId: Int): Workout? {
+        return try {
+            repository.getWorkouts().find { it.id == workoutId }
+        } catch (e: Exception) {
+            null
         }
     }
 }

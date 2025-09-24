@@ -5,35 +5,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:paddingTop="?attr/actionBarSize">
 
+    <!-- Название приложения -->
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FitnessApp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Название тренировки -->
+    <TextView
+        android:id="@+id/workoutTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Название упражнения"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Видео плеер -->
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@android:color/black"
+        app:use_controller="true"
+        android:keepScreenOn="true"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Длительность видео -->
+    <TextView
+        android:id="@+id/videoDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Длительность: 30 минут"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Описание упражнения -->
+    <TextView
+        android:id="@+id/workoutDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Описание упражнения"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Прогрессбар -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:layout_marginTop="12dp"/>
 
+    <!-- Текст ошибки -->
     <TextView
-        android:id="@+id/tvWorkoutTitle"
+        android:id="@+id/errorText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Название"
-        android:textSize="20sp"
-        android:paddingTop="8dp"
-        android:paddingBottom="4dp" />
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone"
+        android:text="Ошибка загрузки видео"
+        android:layout_marginTop="8dp"/>
 
-    <TextView
-        android:id="@+id/tvWorkoutDuration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Длительность"
-        android:paddingBottom="8dp" />
-
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:id="@+id/playerView"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="16dp"
-        app:use_controller="true" />
 </LinearLayout>
