@@ -26,7 +26,7 @@ class WorkoutDetailFragment : Fragment() {
     private val viewModel: VideoPlayerViewModel by viewModels()
     private var player: ExoPlayer? = null
     private var workoutId: Int = 0
-    private var workout: Workout? = null  // сохраняем Workout для title/description
+    private var workout: Workout? = null  // для title/description
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,16 +44,16 @@ class WorkoutDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Сначала загружаем объект Workout
+        // Загружаем Workout
         viewLifecycleOwner.lifecycleScope.launch {
-            workout = viewModel.getWorkoutById(workoutId)  // возвращает Workout
+            workout = viewModel.getWorkoutById(workoutId)
             workout?.let {
                 binding.workoutTitle.text = it.title
                 binding.workoutDescription.text = it.description ?: "Описание отсутствует"
             }
         }
 
-        // Теперь загружаем видео
+        // Загружаем видео
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.video.collectLatest { state ->
                 when (state) {
@@ -84,17 +84,24 @@ class WorkoutDetailFragment : Fragment() {
     }
 
     private fun setupVideo(video: VideoWorkout) {
-        binding.videoDuration.text = "Длительность: ${video.duration}"
+        // Используем рабочий URL видео
+        val fixedVideo = video.copy(
+            link = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        )
+
+        binding.videoDuration.text = "Длительность: ${fixedVideo.duration}"
 
         player = ExoPlayer.Builder(requireContext()).build()
         binding.playerView.player = player
         binding.playerView.useController = true
         binding.playerView.showController()
 
-        val mediaItem = MediaItem.fromUri(video.link.toUri())
+        val mediaItem = MediaItem.fromUri(fixedVideo.link.toUri())
         player?.setMediaItem(mediaItem)
         player?.prepare()
         player?.play()
+
+        Log.d("WorkoutDetail", "Video URL: ${fixedVideo.link}")
     }
 
     override fun onStop() {
