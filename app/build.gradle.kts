@@ -62,6 +62,7 @@ dependencies {
 
     // ExoPlayer
     implementation(libs.exoplayer)
+    implementation(libs.exoplayer.ui)
 
     // Glide
     implementation(libs.glide)
@@ -74,4 +75,6 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
 
     implementation(libs.androidx.fragment.ktx)
+
+
 }
