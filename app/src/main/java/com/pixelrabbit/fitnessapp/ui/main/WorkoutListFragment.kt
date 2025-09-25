@@ -14,8 +14,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pixelrabbit.fitnessapp.data.model.Workout
 import com.pixelrabbit.fitnessapp.databinding.FragmentWorkoutListBinding
-import com.pixelrabbit.fitnessapp.ui.detail.WorkoutDetailFragment
 import com.pixelrabbit.fitnessapp.utils.UiState
+
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 
 class WorkoutListFragment : Fragment() {
 
@@ -47,6 +49,20 @@ class WorkoutListFragment : Fragment() {
 
         setupSearch()
         setupFilter()
+
+        binding.searchView.setOnClickListener {
+            binding.searchView.isIconified = false
+            binding.searchView.requestFocus()
+
+            // Получаем внутреннее текстовое поле как EditText
+            val searchEditText = binding.searchView.findViewById<android.widget.EditText>(
+                androidx.appcompat.R.id.search_src_text
+            )
+
+            // Открываем клавиатуру
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT)
+        }
 
         viewModel.workouts.observe(viewLifecycleOwner, Observer { state ->
             when (state) {

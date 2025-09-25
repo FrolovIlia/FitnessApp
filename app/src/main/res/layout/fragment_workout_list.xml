@@ -1,23 +1,33 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="?attr/actionBarSize">
+    android:paddingTop="?attr/actionBarSize"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:background="@color/kolsa_background">
 
-    <!-- Поле поиска -->
+    <!-- Поисковая строка -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Поиск по названию" />
+        android:queryHint="Поиск по названию"
+        android:background="@drawable/searchview_background"
+        android:iconifiedByDefault="false"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_marginBottom="8dp"/>
 
-    <!-- Фильтр -->
+    <!-- Фильтр с иконкой раскрытия -->
     <Spinner
         android:id="@+id/typeFilter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/spinner_background"
+        android:spinnerMode="dropdown"/>
 
     <!-- Список -->
     <androidx.recyclerview.widget.RecyclerView
@@ -26,7 +36,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:paddingTop="8dp"/>
+        android:paddingTop="4dp"/>
 
     <!-- Прогрессбар -->
     <ProgressBar
@@ -34,6 +44,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone" />
-
+        android:visibility="gone"
+        android:indeterminateTint="@color/kolsa_pink"/>
 </LinearLayout>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:paddingTop="?attr/actionBarSize">
+    android:background="@color/kolsa_background">
 
     <!-- Название приложения -->
     <TextView
@@ -16,6 +16,7 @@
         android:text="FitnessApp"
         android:textSize="22sp"
         android:textStyle="bold"
+        android:textColor="@color/kolsa_pink"
         android:layout_marginBottom="12dp"/>
 
     <!-- Название тренировки -->
@@ -26,6 +27,7 @@
         android:text="Название упражнения"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@color/kolsa_text_primary"
         android:layout_marginBottom="8dp"/>
 
     <!-- Видео плеер -->
@@ -33,7 +35,7 @@
         android:id="@+id/playerView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@android:color/black"
+        android:background="@color/kolsa_teal"
         app:use_controller="true"
         app:show_buffering="when_playing"
         app:resize_mode="fit"
@@ -46,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Длительность: 30 минут"
+        android:textColor="@color/kolsa_text_secondary"
         android:layout_marginBottom="8dp"/>
 
     <!-- Описание упражнения -->
@@ -55,6 +58,7 @@
         android:layout_height="wrap_content"
         android:text="Описание упражнения"
         android:textSize="16sp"
+        android:textColor="@color/kolsa_text_primary"
         android:layout_marginBottom="8dp"/>
 
     <!-- Прогрессбар -->
@@ -64,7 +68,8 @@
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp"
+        android:indeterminateTint="@color/kolsa_pink"/>
 
     <!-- Текст ошибки -->
     <TextView
