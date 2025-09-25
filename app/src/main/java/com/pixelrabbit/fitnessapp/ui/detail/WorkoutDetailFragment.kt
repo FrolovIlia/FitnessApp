@@ -26,7 +26,7 @@ class WorkoutDetailFragment : Fragment() {
     private val viewModel: VideoPlayerViewModel by viewModels()
     private var player: ExoPlayer? = null
     private var workoutId: Int = 0
-    private var workout: Workout? = null  // для title/description
+    private var workout: Workout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +84,7 @@ class WorkoutDetailFragment : Fragment() {
     }
 
     private fun setupVideo(video: VideoWorkout) {
-        // Используем рабочий URL видео
+        // Фиксируем тестовый URL для примера
         val fixedVideo = video.copy(
             link = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         )
@@ -94,7 +94,7 @@ class WorkoutDetailFragment : Fragment() {
         player = ExoPlayer.Builder(requireContext()).build()
         binding.playerView.player = player
         binding.playerView.useController = true
-        binding.playerView.showController()
+        binding.playerView.showController() // автопоказ контролов
 
         val mediaItem = MediaItem.fromUri(fixedVideo.link.toUri())
         player?.setMediaItem(mediaItem)

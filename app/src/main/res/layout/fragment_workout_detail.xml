@@ -29,12 +29,14 @@
         android:layout_marginBottom="8dp"/>
 
     <!-- Видео плеер -->
-    <com.google.android.exoplayer2.ui.PlayerView
+    <com.google.android.exoplayer2.ui.StyledPlayerView
         android:id="@+id/playerView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="@android:color/black"
         app:use_controller="true"
+        app:show_buffering="when_playing"
+        app:resize_mode="fit"
         android:keepScreenOn="true"
         android:layout_marginBottom="8dp"/>
 
@@ -73,5 +75,4 @@
         android:visibility="gone"
         android:text="Ошибка загрузки видео"
         android:layout_marginTop="8dp"/>
-
 </LinearLayout>
