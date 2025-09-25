@@ -19,7 +19,7 @@ class WorkoutViewModel : ViewModel() {
     private var _allWorkouts: List<Workout> = emptyList()
 
     private var currentQuery: String = ""
-    private var currentFilterType: Int = 0 // 0 = все
+    private var currentFilterType: Int = 0
 
     fun loadWorkouts() {
         viewModelScope.launch {

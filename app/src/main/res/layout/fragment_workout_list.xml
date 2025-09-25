@@ -8,7 +8,6 @@
     android:paddingEnd="8dp"
     android:background="@color/kolsa_background">
 
-    <!-- Поисковая строка -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
@@ -20,7 +19,6 @@
         android:clickable="true"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Фильтр с иконкой раскрытия -->
     <Spinner
         android:id="@+id/typeFilter"
         android:layout_width="match_parent"
@@ -29,7 +27,6 @@
         android:background="@drawable/spinner_background"
         android:spinnerMode="dropdown"/>
 
-    <!-- Список -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -38,7 +35,6 @@
         android:clipToPadding="false"
         android:paddingTop="4dp"/>
 
-    <!-- Прогрессбар -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

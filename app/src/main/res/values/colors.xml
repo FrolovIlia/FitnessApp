@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Основной фон -->
     <color name="kolsa_background">#FFFFFF</color>
-
-    <!-- Основной текст -->
     <color name="kolsa_text_primary">#1A1A1A</color>
-
-    <!-- Второстепенный текст -->
     <color name="kolsa_text_secondary">#666666</color>
-
-    <!-- Акцентные цвета -->
-    <color name="kolsa_pink">#FF5C8D</color>   <!-- кнопки, выделения -->
-    <color name="kolsa_purple">#9B59B6</color> <!-- ActionBar, заголовки -->
-    <color name="kolsa_teal">#656A68</color>   <!-- кнопки, фоны карточек -->
-
-    <!-- Дополнительные мягкие оттенки для карточек, фонов и разделителей -->
+    <color name="kolsa_pink">#FF5C8D</color>
+    <color name="kolsa_purple">#9B59B6</color>
+    <color name="kolsa_teal">#656A68</color>
     <color name="kolsa_light_purple">#E6D7F0</color>
     <color name="kolsa_light_pink">#FFD6E0</color>
 </resources>

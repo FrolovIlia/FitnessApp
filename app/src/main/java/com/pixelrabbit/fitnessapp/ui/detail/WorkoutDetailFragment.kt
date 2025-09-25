@@ -44,7 +44,6 @@ class WorkoutDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Загружаем Workout
         viewLifecycleOwner.lifecycleScope.launch {
             workout = viewModel.getWorkoutById(workoutId)
             workout?.let {
@@ -53,7 +52,6 @@ class WorkoutDetailFragment : Fragment() {
             }
         }
 
-        // Загружаем видео
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.video.collectLatest { state ->
                 when (state) {
@@ -84,7 +82,6 @@ class WorkoutDetailFragment : Fragment() {
     }
 
     private fun setupVideo(video: VideoWorkout) {
-        // Фиксируем тестовый URL для примера
         val fixedVideo = video.copy(
             link = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         )
@@ -94,7 +91,7 @@ class WorkoutDetailFragment : Fragment() {
         player = ExoPlayer.Builder(requireContext()).build()
         binding.playerView.player = player
         binding.playerView.useController = true
-        binding.playerView.showController() // автопоказ контролов
+        binding.playerView.showController()
 
         val mediaItem = MediaItem.fromUri(fixedVideo.link.toUri())
         player?.setMediaItem(mediaItem)

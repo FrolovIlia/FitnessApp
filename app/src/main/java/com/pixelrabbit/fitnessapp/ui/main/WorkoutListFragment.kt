@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pixelrabbit.fitnessapp.data.model.Workout
 import com.pixelrabbit.fitnessapp.databinding.FragmentWorkoutListBinding
 import com.pixelrabbit.fitnessapp.utils.UiState
-
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 
@@ -27,7 +26,6 @@ class WorkoutListFragment : Fragment() {
     private val viewModel: WorkoutViewModel by viewModels()
     private lateinit var adapter: WorkoutAdapter
 
-    // Интерфейс для передачи выбранной тренировки в Activity
     interface WorkoutSelectionListener {
         fun onWorkoutSelected(workoutId: Int)
     }
@@ -53,13 +51,9 @@ class WorkoutListFragment : Fragment() {
         binding.searchView.setOnClickListener {
             binding.searchView.isIconified = false
             binding.searchView.requestFocus()
-
-            // Получаем внутреннее текстовое поле как EditText
             val searchEditText = binding.searchView.findViewById<android.widget.EditText>(
                 androidx.appcompat.R.id.search_src_text
             )
-
-            // Открываем клавиатуру
             val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT)
         }
@@ -73,7 +67,6 @@ class WorkoutListFragment : Fragment() {
                 }
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    // Можно показать Toast или TextView
                 }
                 is UiState.Empty -> {
                     binding.progressBar.visibility = View.GONE
@@ -108,7 +101,7 @@ class WorkoutListFragment : Fragment() {
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                viewModel.filterByType(position) // 0 = все, 1-3 соответствуют типу
+                viewModel.filterByType(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -116,7 +109,6 @@ class WorkoutListFragment : Fragment() {
     }
 
     private fun openDetail(workout: Workout) {
-        // Передаём выбранную тренировку через интерфейс в Activity
         (activity as? WorkoutSelectionListener)?.onWorkoutSelected(workout.id)
     }
 

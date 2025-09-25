@@ -8,7 +8,7 @@ object RetrofitInstance {
 
     private val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://ref.test.kolsa.ru/") // URL из Swagger
+            .baseUrl("http://ref.test.kolsa.ru/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

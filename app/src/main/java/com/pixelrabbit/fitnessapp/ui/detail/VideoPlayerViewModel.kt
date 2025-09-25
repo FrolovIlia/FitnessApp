@@ -17,7 +17,6 @@ class VideoPlayerViewModel : ViewModel() {
     private val _video = MutableStateFlow<UiState<VideoWorkout>>(UiState.Empty)
     val video: StateFlow<UiState<VideoWorkout>> = _video
 
-    // Метод для получения видео
     fun loadVideo(workoutId: Int) {
         viewModelScope.launch {
             _video.value = UiState.Loading
@@ -30,7 +29,6 @@ class VideoPlayerViewModel : ViewModel() {
         }
     }
 
-    // 🔹 Новый метод: получить Workout по ID
     suspend fun getWorkoutById(workoutId: Int): Workout? {
         return try {
             repository.getWorkouts().find { it.id == workoutId }

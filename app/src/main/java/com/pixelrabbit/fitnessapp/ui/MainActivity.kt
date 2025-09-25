@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity(), WorkoutListFragment.WorkoutSelectionLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Показываем список тренировок при запуске
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 replace(R.id.fragment_container, WorkoutListFragment())
@@ -21,7 +20,6 @@ class MainActivity : AppCompatActivity(), WorkoutListFragment.WorkoutSelectionLi
         }
     }
 
-    // Метод интерфейса для передачи выбранной тренировки
     override fun onWorkoutSelected(workoutId: Int) {
         val fragment = WorkoutDetailFragment().apply {
             arguments = Bundle().apply {
